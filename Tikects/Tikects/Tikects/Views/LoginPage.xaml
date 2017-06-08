@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tikects.Views.LoginPage"
+             Title="Login"
+             BackgroundColor="#e9eaea"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding Users}">
+            <StackLayout
+                Padding="8"
+                VerticalOptions="Center">
+                <Label
+                    Text="Reserva de Tickets"
+                    Margin="0,0,0,10"
+                    FontSize="20"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    TextColor="Black"
+                    FontFamily="Oxygen">
+                </Label>
+                <StackLayout
+                    BackgroundColor="White">
+                <Label
+                    Text="Email">
+                </Label>
+                <Entry
+                    Placeholder="Enter Email"
+                    Keyboard="Email"
+                    Text="{Binding Email, Mode=TwoWay}">
+                </Entry>
+                <Label
+                    Text="Password">
+                </Label>
+                <Entry
+                    Placeholder="Enter Password"
+                    Text="{Binding Password, Mode=TwoWay}"
+                    IsPassword="True"
+                    >
+                    <!--BackgroundColor="White"-->
+                </Entry>
+           </StackLayout>
+            <ActivityIndicator
+                IsRunning="{Binding IsRunning}">
+            </ActivityIndicator>
+            <Button
+                    HorizontalOptions="FillAndExpand"
+                    Command="{Binding LoginCommand}"
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                    BackgroundColor="#34b3a0"
+                    TextColor="White"
+                    Text="Login"
+                    Margin="0,0,0,30">
+            </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

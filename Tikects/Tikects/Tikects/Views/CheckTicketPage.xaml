@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tikects.Views.CheckTicketPage"
+             Title="Check Tickets"
+             BackgroundColor="#e9eaea"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding CheckTicket}">
+            <StackLayout
+                Padding="8"
+                VerticalOptions="Center">
+                <Label
+                    Text="{Binding FirstName, Mode=TwoWay}"
+                    FontSize="20"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    TextColor="Black"
+                    FontFamily="Oxygen">
+                </Label>
+                <Label
+                    Text="Ticket Code"
+                    FontSize="20"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    TextColor="Black"
+                    FontFamily="Oxygen">
+                </Label>
+                <StackLayout
+                    BackgroundColor="White">
+                    <Entry
+                    Placeholder="Enter Ticket code"
+                    Keyboard="Email"
+                    Text="{Binding TicketCode, Mode=TwoWay}">
+                    </Entry>
+                    <Label
+                    Text="{Binding Message, Mode=TwoWay}"
+                    FontSize="20"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    TextColor="{Binding Color, Mode=TwoWay}">
+                    </Label>
+                </StackLayout>
+                <ActivityIndicator
+                IsRunning="{Binding IsRunning}">
+                </ActivityIndicator>
+                <Button
+                    HorizontalOptions="FillAndExpand"
+                    Command="{Binding CheckTicketCommand}"
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                    BackgroundColor="#34b3a0"
+                    TextColor="White"
+                    Text="Login"
+                    Margin="0,0,0,30">
+                </Button>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
