@@ -3,11 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Tikects.Views.LoginPage"
              Title="Login"
-             BackgroundColor="#e9eaea"
+             BackgroundColor="#d4d5d6"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
     <ContentPage.Content>
         <ScrollView
             BindingContext="{Binding Users}">
+            <!--dsdsd#d4d5d6 - #e9eaeas dsdsd-->
             <StackLayout
                 Padding="8"
                 VerticalOptions="Center">
@@ -20,8 +21,8 @@
                     TextColor="Black"
                     FontFamily="Oxygen">
                 </Label>
-                <StackLayout
-                    BackgroundColor="White">
+                <!--<StackLayout
+                    BackgroundColor="White">-->
                 <Label
                     Text="Email">
                 </Label>
@@ -40,7 +41,7 @@
                     >
                     <!--BackgroundColor="White"-->
                 </Entry>
-           </StackLayout>
+           <!--</StackLayout>-->
             <ActivityIndicator
                 IsRunning="{Binding IsRunning}">
             </ActivityIndicator>

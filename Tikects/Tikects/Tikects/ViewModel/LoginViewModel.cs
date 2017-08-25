@@ -67,7 +67,7 @@ namespace Tikects.ViewModel
 
         #region Constructor
         public LoginViewModel() {
-            instance = this;
+            //instance = this;
             apiService = new ApiService();
             dialogService = new DialogService();
             navigationService = new NavigationService();
@@ -78,7 +78,7 @@ namespace Tikects.ViewModel
         }
         #endregion
 
-       #region Singleton
+       /*#region Singleton
         static LoginViewModel instance;
 
         public static LoginViewModel GetInstance()
@@ -90,7 +90,7 @@ namespace Tikects.ViewModel
 
             return instance;
         }
-        #endregion
+        #endregion*/
 
         #region Methods
         public async void Login()
@@ -112,12 +112,15 @@ namespace Tikects.ViewModel
                 await dialogService.ShowMessage("Error", "La contraseña es obligatoria");
                 return;
             }
+            User u = new User();
+            u.Email = Email;
+            u.Password = Password;
+            u.UserId = null;
             var response = await apiService.Post(
                 "http://checkticketsback.azurewebsites.net",
                 "/api",
                 "/Users/Login",
-                Email,
-                Password);
+                u);
 
             if (!response.IsSuccess)
             {
@@ -127,16 +130,16 @@ namespace Tikects.ViewModel
                 return;
             }
             //await dialogService.ShowConfirm("Aceptar", ""+response.Result);
-            User u = new User();
+            //User u = new User();
             u = (User)response.Result;
-            new User {
+           /* new User {
                 UserId = u.UserId,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
-            };
+            };*/
             var maninViewModel = MainViewModel.GetInstance();
-            maninViewModel.CheckTicket = new CheckTicketViewModel(this);
+            maninViewModel.CheckTicket = new CheckTicketViewModel(u);
             await navigationService.Navigate("CheckTicketPage");
             IsRunning = false;
             IsEnabled = true;

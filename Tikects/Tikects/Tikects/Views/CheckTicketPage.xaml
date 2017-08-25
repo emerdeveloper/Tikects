@@ -27,8 +27,8 @@
                     TextColor="Black"
                     FontFamily="Oxygen">
                 </Label>
-                <StackLayout
-                    BackgroundColor="White">
+                <!--<StackLayout
+                    BackgroundColor="White">-->
                     <Entry
                     Placeholder="Enter Ticket code"
                     Keyboard="Email"
@@ -41,7 +41,7 @@
                     VerticalOptions="Center"
                     TextColor="{Binding Color, Mode=TwoWay}">
                     </Label>
-                </StackLayout>
+                <!--</StackLayout>-->
                 <ActivityIndicator
                 IsRunning="{Binding IsRunning}">
                 </ActivityIndicator>

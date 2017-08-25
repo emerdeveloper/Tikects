@@ -8,7 +8,7 @@ namespace Tikects.Models
 {
     public class User
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         public string FirstName { get; set; }
 
@@ -24,6 +24,8 @@ namespace Tikects.Models
 
         public string DateTime { get; set; }
 
-        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
+        public string FullName { get; set; }
+
+        //public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
     }
 }

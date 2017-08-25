@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace Tikects.ViewModel
 {
-    public class CheckTicketViewModel : User
+    public class CheckTicketViewModel : User , INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -127,15 +127,65 @@ namespace Tikects.ViewModel
                 IsRunning = false;
                 await dialogService.ShowMessage("Error", "Debe ingresar un ticket "+ UserId);
                 return;
-            } else if (TicketCode.Length < 4) {
+            } else if (TicketCode.Length != 4) {
                 IsEnabled = true;
                 IsRunning = false;
                 await dialogService.ShowMessage("Error", "El ticket debe ser de 4 dígitos");
                 return;
             }
 
+            var response = await apiService.Get(
+                "http://checkticketsback.azurewebsites.net",
+                "/api",
+                "/Tickets/",
+                TicketCode);
 
+            if (!response.IsSuccess)
+            {
+                if (response.Message.Equals("NotFound"))
+                {
+                    SaveTicket();
+                    return;
+                }
+                IsEnabled = true;
+                IsRunning = false;
+                await dialogService.ShowMessage("Error", response.Message);
+            }
+            User u = new User();
+            u = (User)response.Result;
+            Message = u.TicketCode+" TICKET YA LEIDO";
+            Color = Color.Red;
+            IsEnabled = true;
+            IsRunning = false;
+            return;
         }
+
+        public async void SaveTicket()
+        {
+            User u = new User();
+            u.TicketCode = TicketCode;
+            u.UserId = UserId;
+            var response = await apiService.Post(
+                "http://checkticketsback.azurewebsites.net",
+                "/api",
+                "/Tickets",
+                u);
+
+            if (!response.IsSuccess)
+            {
+                IsEnabled = true;
+                IsRunning = false;
+                await dialogService.ShowMessage("Error", response.Message);
+                return;
+            }
+            u = (User)response.Result;
+            Message = u.TicketCode+ ", ACCESO AUTORIZADO";
+            Color = Color.Green;
+            IsEnabled = true;
+            IsRunning = false;
+            return;
+        }
+
         #region Command
         //esste comando lo definio la region en el COntactsPage.xaml
         public ICommand CheckTicketCommand

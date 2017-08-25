@@ -17,7 +17,7 @@ namespace Tikects.Services
         #endregion
 
         //traera una lista de lo que queramos
-        public async Task<Response> Get<T>(
+        public async Task<Response> Get(
             string urlBase, 
             string servicePrefix, 
             string controller,
@@ -27,7 +27,7 @@ namespace Tikects.Services
             {
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(urlBase);//Dirección base del servicio
-                var url = string.Format("{0}{1}", servicePrefix, controller);//servicePrefix = context root //controller Despues del contest root
+                var url = string.Format("{0}{1}{2}", servicePrefix, controller, ticketCode);//servicePrefix = context root //controller Despues del contest root
                 var response = await client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)//Si no hubo respuesta
@@ -41,7 +41,7 @@ namespace Tikects.Services
                 }
 
                 var result = await response.Content.ReadAsStringAsync();//leemos la respuesta
-                var list = JsonConvert.DeserializeObject<List<T>>(result);//Desearealizamos el List<T> //Sera la lista que le pasaremos
+                var list = JsonConvert.DeserializeObject<User>(result);//Desearealizamos el List<T> //Sera la lista que le pasaremos
                 return new Response
                 {
                     IsSuccess = true,
@@ -62,16 +62,28 @@ namespace Tikects.Services
         public async Task<Response> Post(
             string urlBase, 
             string servicePrefix, 
-            string controller, 
-            string email,
-            string password)
+            string controller,
+            User u
+            )/*string email,
+            string password,
+            string userId,
+            int action*/
         {
             try
             {
-                //var request = "{\nEmail:" + email + ",\nPassword:" + password + "\n}";
-                string request = @"{Email: '"+email+ "', Password: '"+password+"'}";
+                string request = "";
+                if (u.UserId == null || u.UserId.Equals(""))
+                {
+                    request = @"{Email: '" + u.Email + "', Password: '" + u.Password + "'}";
+                }
+                else { 
+                    string time = $"{DateTime.Now.Year}-{DateTime.Now.ToString("MM")}-{DateTime.Now.ToString("dd")}T{DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}";
+                    request = @"{TicketCode: '" + u.TicketCode + "', DateTime: '" + time + "', UserId: " + u.UserId + "}";
+                }
+                 
                 JObject o = JObject.Parse(request);
-                var content = new StringContent(o.ToString(), Encoding.UTF8, "application /json");
+                request = o.ToString();
+                var content = new StringContent(request, Encoding.UTF8, "application /json");
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(urlBase);
                 var url = string.Format("{0}{1}", servicePrefix, controller);
@@ -105,5 +117,6 @@ namespace Tikects.Services
                 };
             }
         }
+        
     }
 }

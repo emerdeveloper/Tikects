@@ -13,7 +13,11 @@ namespace Tikects
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new NavigationPage(new LoginPage())
+            {
+                BarBackgroundColor = Color.FromHex("#34b3a0"),
+                BarTextColor = Color.White,
+            };
         }
 
         protected override void OnStart()
